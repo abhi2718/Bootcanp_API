@@ -1,0 +1,13 @@
+1. mongoose -> https://mongoosejs.com/docs/geojson.html
+2. expressValidator -> https://express-validator.github.io/docs/
+3. Using async/await in ExpressJS middlewares -> https://www.acuriousanimal.com/blog/20180315/express-async-middleware
+4. node-geocoder -> https://github.com/nchaulet/node-geocoder
+5. Geospatial Query - Get Bootcamps Within Radius -> https://docs.mongodb.com/manual/reference/operator/query/centerSphere/#mongodb-query-op.-centerSphere
+6. API End Point with query parameter -> http://localhost:5000/api/v1/bootcamps?location.state=Uttar Pradesh&housing=true
+7. Searching -> // API End Point -> /api/v1/bootcamps?location.state=Uttar Pradesh&housing=true
+exports.getBootcamps=asyncHandler(async (req,res,next)=>{
+       console.log(req.query); // { 'location.state': 'Uttar Pradesh', housing: 'true' }
+       const bootcamps= await Bootcamp.find(req.query);
+       res.status(200).json({success:true,data:bootcamps,count:bootcamps.length});
+})
+8. Query and Projection Operators In MongoDB Database -> https://docs.mongodb.com/manual/reference/operator/query/
