@@ -7,11 +7,10 @@ const Bootcamp = require('../models/Bootcamp'),
 // access Public
 // queryURL http://localhost:5000/api/v1/bootcamps?averageCost[lt]=2000&location.zipcode=221005&housing=true
 exports.getBootcamps=asyncHandler(async (req,res,next)=>{
-       let queryStr=JSON.stringify(req.query);
-       queryStr=queryStr.replace(/\b(lt|lte|gt|gte|in)\b/g,match=>`$${match}`)
-       let query=JSON.parse(queryStr).averageCost;
-       const bootcamps= await Bootcamp.find({...req.query,averageCost:{[Object.keys(query)[0]]:Number(Object.values(query)[0])}});
-       res.status(200).json({success:true,data:bootcamps,count:bootcamps.length});
+       let queryString=JSON.stringify(req.query).replace(/\b(lt|lte|gt|gte|in)\b/g,match=>`$${match}`),
+           query=JSON.parse(queryString),
+           bootcamps= await Bootcamp.find(query);
+       res.status(200).json({success:true,data: bootcamps,count: bootcamps.length});
 })
 
 // @desc  Get a bootcamp
