@@ -2,6 +2,7 @@
 const express=require('express'),
       dotenv=require('dotenv'),
       bootcamps=require('./routes/bootcamps'), // importing route file
+      courses=require('./routes/courses'),  // importing route file
       morgan=require('morgan'),
       errorHandler=require('./middleware/error'),
       connectToDb=require('./config/db');
@@ -19,6 +20,7 @@ const express=require('express'),
       app.use(express.json());
       // mounting bootcamp routes
       app.use('/api/v1/bootcamps',bootcamps);
+      app.use('/api/v1/courses',courses);
       app.use(errorHandler);
 
      const server = app.listen(PORT,
