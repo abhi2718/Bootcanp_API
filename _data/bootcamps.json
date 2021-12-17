@@ -6,7 +6,6 @@
 		"description": "Devworks is a full stack JavaScript Bootcamp located in the heart of Boston that focuses on the technologies you need to get a high paying job as a web developer",
 		"website": "https://devworks.com",
 		"phone": "8318064321",
-		"averageCost":1000,
 		"email": "enroll@devworks.com",
 		"address": "shringar vatika samaneghat varanasi",
 		"careers": ["Web Development", "UI/UX", "Business"],
@@ -23,7 +22,6 @@
 		"website": "https://moderntech.com",
 		"phone": "8318064326",
 		"email": "enroll@moderntech.com",
-		"averageCost":1200,
 		"address": "MCIIE IIT BHU Varanasi",
 		"careers": ["Web Development", "UI/UX", "Mobile Development"],
 		"housing": false,
@@ -42,7 +40,6 @@
 		"address": "sundarpur varanasi",
 		"careers": ["Web Development", "Data Science", "Business"],
 		"housing": false,
-		"averageCost":1400,
 		"jobAssistance": false,
 		"jobGuarantee": false,
 		"acceptGi": false
@@ -56,7 +53,6 @@
 		"phone": "8318064327",
 		"email": "enroll@devcentral.com",
 		"address": "sarnath varanasi",
-		"averageCost":1600,
 		"careers": [
 			"Mobile Development",
 			"Web Development",

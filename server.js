@@ -1,23 +1,37 @@
 // https://mongoosejs.com/docs/populate.html -> document for mongoose
 const express=require('express'),
       dotenv=require('dotenv'),
+      path=require('path'),
       bootcamps=require('./routes/bootcamps'), // importing route file
       courses=require('./routes/courses'),  // importing route file
       morgan=require('morgan'),
       errorHandler=require('./middleware/error'),
-      connectToDb=require('./config/db');
+      fileupload=require('express-fileupload'),
+      connectToDb=require('./config/db'),
       app=express();
+
       // loading env variables.
       dotenv.config({path:'./config/config.env'});
       // connecting with db
       connectToDb();
       const PORT=process.env.PORT || 5000;
+
+
       // Dev logging middleware
       if(process.env.NODE_ENV === 'development'){
         app.use(morgan('dev'));
       }
+
+
       // body parser
       app.use(express.json());
+      
+      // file uploading
+      app.use(fileupload())
+
+      // set static folder
+      app.use(express.static('public'))
+
       // mounting bootcamp routes
       app.use('/api/v1/bootcamps',bootcamps);
       app.use('/api/v1/courses',courses);
@@ -27,6 +41,7 @@ const express=require('express'),
       console.log(`server is running in ${process.env.NODE_ENV} mode ,
       on port ${PORT}`)
       );
+
 
       // handling unhandled promise rejections
       process.on('unhandledRejection',(err,promise)=>{

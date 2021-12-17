@@ -1,10 +1,8 @@
 const Bootcamp = require('../models/Bootcamp'),
       asyncHandler = require('../middleware/async'),
       geocoder = require('../utils/geocoder'),
+      path = require('path'),
       ErrorResponse = require('../utils/errorResponse');
-
-
-     
 
 
 // @desc  Get all bootcamps
@@ -138,5 +136,41 @@ exports.getBootcampInRadius=asyncHandler(async (req,res,next)=>{
                 count:bootcampsInRadius.length,
                 data:bootcampsInRadius,
         })
+    })
+
+
+// @desc  upload photo for a bootcamp
+// route  PUT /api/v1/bootcamps/:id/photo
+// access Private
+exports.bootcampPhotoUpload=asyncHandler(async (req,res,next)=>{
+        const bootcamp= await Bootcamp.findById(req.params.id);
+            if(!bootcamp){
+               return next(new ErrorResponse(`Resource does not found for given id ${req.params.id}`,404));
+            }
+            if(!req.files){
+                return next(new ErrorResponse(`Please upload an file`,400));    
+            }
+            const file=req.files.file;
+            // Make sure the image is a photo
+            if(!file.mimetype.startsWith('image')){
+                return next(new ErrorResponse(`Please upload an image file`,400));  
+            }
+            // Checking file size unit is bytes,MAX_FILE_UPLOAD = 1 Megabyte which is equal to 10,00,000 bytes
+            if(file.size>process.env.MAX_FILE_UPLOAD_SIZE){
+                return next(new ErrorResponse(`Please upload an image less than 1 Megabyte`,400));  
+            }
+            // Creating custom file name
+            file.name=`photo_${bootcamp._id}${path.parse(file.name).ext}`;
+            file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`,async err=>{
+                    if(err){
+                        console.error(err);
+                        return next(new ErrorResponse(`Problem with file upload`,500));  
+                    }
+                    
+                    await Bootcamp.findByIdAndUpdate(req.params.id,{
+                            photo:file.name
+                    })
+                    res.status(200).json({success:true,data:{name:file.name,url:`http://localhost:5000/uploads/${file.name}`}});
+            }) 
     })
 module.exports=exports;
