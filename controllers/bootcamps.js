@@ -12,45 +12,9 @@ const Bootcamp = require('../models/Bootcamp'),
 // queryUrl_FOR_Select http://localhost:5000/api/v1/bootcamps?select=name,description,phone,email,address
 // queryURL_FOR_Filter_and_select http://localhost:5000/api/v1/bootcamps?select=name,description,phone,email,address&housing=true
 // queryUrl_For_Sorting -> http://localhost:5000/api/v1/bootcamps?sort=averageCost,http://localhost:5000/api/v1/bootcamps?sort=-averageCost
-// querURL_For_Pagination -> 
+// querURL_For_Pagination -> http://localhost:5000/api/v1/bootcamps?page=1&limit=2
 exports.getBootcamps=asyncHandler(async (req,res,next)=>{
-           let query;
-           // copy of req.query
-           const reqQuery = {...req.query}
-           // Fields to exclude 
-           const removeFields = ['select','sort','limit','page'];
-           // Loop over removeFields and delete them from reqQuery
-           removeFields.forEach(param => delete reqQuery[param]);
-           // create query string 
-           let queryStr=JSON.stringify(reqQuery);
-           // create operators ($gt,$gte,etc)
-           queryStr=queryStr.replace(/\b(lt|lte|gt|gte|in)\b/g,match=>`$${match}`);
-           // finding resource 
-           query=Bootcamp.find(JSON.parse(queryStr)).populate({
-                path:'courses',
-                select:'title description'
-            });
-           // select desire fields 
-           if(req.query.select){
-           const fields=req.query.select.split(',').join(' ');
-           query.select(fields)
-           }
-           // sorting
-           if(req.query.sort){
-                   const sortBy=req.query.sort.split(',').join(' ');
-                   query.sort(sortBy);
-           }
-           else{
-                query.sort('-createdAt');
-           }
-           // pagination
-           const page=parseInt(req.query.page) || 1;
-           const limit=parseInt(req.query.limit) || 10;
-           const skip= (page-1)*limit;
-           query=query.skip(skip).limit(limit);
-           // executing query
-           const bootcamps= await query;
-           res.status(200).json({success:true,data: bootcamps,count: bootcamps.length});
+           res.status(200).json( res.advanceResult);
 })
 
 
