@@ -1,10 +1,11 @@
 // https://mongoosejs.com/docs/populate.html -> document for mongoose
 const express=require('express'),
       dotenv=require('dotenv'),
-      path=require('path'),
       bootcamps=require('./routes/bootcamps'), // importing route file
       courses=require('./routes/courses'),  // importing route file
+      user=require('./routes/auth'),
       morgan=require('morgan'),
+      cookieParser = require('cookie-parser'),
       errorHandler=require('./middleware/error'),
       fileupload=require('express-fileupload'),
       connectToDb=require('./config/db'),
@@ -25,9 +26,10 @@ const express=require('express'),
 
       // body parser
       app.use(express.json());
-      
+      // cookie parser
+      app.use(cookieParser());
       // file uploading
-      app.use(fileupload())
+      app.use(fileupload());
 
       // set static folder
       app.use(express.static('public'))
@@ -35,6 +37,7 @@ const express=require('express'),
       // mounting bootcamp routes
       app.use('/api/v1/bootcamps',bootcamps);
       app.use('/api/v1/courses',courses);
+      app.use('/api/v1/auth/',user);
       app.use(errorHandler);
 
      const server = app.listen(PORT,

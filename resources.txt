@@ -13,9 +13,10 @@ exports.getBootcamps=asyncHandler(async (req,res,next)=>{
 8. Query and Projection Operators In MongoDB Database -> https://docs.mongodb.com/manual/reference/operator/query/
 
 
-=============================================== Mongoose Query ===========================
-S.No                Methods                    default 
+ ------- =================================== Mongoose Query =========================== -------  
+                        S.No                Methods                    default 
 
-1.                  find()                       []
+                         1.                  find()                       []
 
-2.
+                         2.                                                 
+
