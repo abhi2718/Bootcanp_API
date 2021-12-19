@@ -18,5 +18,10 @@ exports.getBootcamps=asyncHandler(async (req,res,next)=>{
 
                          1.                  find()                       []
 
-                         2.                                                 
-
+                         2.     
+Note :-
+1.Mongoose hooks pre,post work on event such as save,remove -> examle we can use pre hook in hashing the password before inserting it in DB.
+2.Methods attached with document -> we can attach methods on the document examle :- to generate token,to match password 
+3.Schema -> compile ->Model (blueprint for document) -> document                                             
+4.we will attach methods and hooks on schema level.
+5. When there is requirement of aggregate to find sum,average etc ..... use statics ,we can also use statics to make such function which will run inside hooks 

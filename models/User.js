@@ -17,7 +17,7 @@ const mongoose=require('mongoose'),
           },
           role:{
               type:String,
-              enum:['user','publisher'],
+              enum:['user','publisher','admin'],
               default:'user'
           },
           password:{
@@ -37,7 +37,7 @@ const mongoose=require('mongoose'),
 UserSchema.pre('save',async function(next){
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password,salt);
-    next();
+    next(); 
 })
 // Sign JWT and return 
 UserSchema.method('getSignedJwtToken',function(){
