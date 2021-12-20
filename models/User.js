@@ -17,7 +17,7 @@ const mongoose=require('mongoose'),
           },
           role:{
               type:String,
-              enum:['user','publisher','admin'],
+              enum:['user','publisher'],
               default:'user'
           },
           password:{

@@ -32,7 +32,7 @@ exports.protect=asyncHandler(async(req,res,next)=>{
 // grant access to spcific roles
 exports.authrize=(...roles)=>(req,res,next)=>{
     if(!roles.includes(req.user.role)){
-        return next(new ErrorResponse(`User role ${req.user.roles} is not Authorize to access this route .`,403));
+        return next(new ErrorResponse(`User role ${req.user.role} is not Authorize to access this route .`,403));
     }
     next();
 }

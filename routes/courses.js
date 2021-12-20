@@ -10,10 +10,10 @@ const express = require("express"),
             path:'bootcamp',
             select:'name description'
          }),getCourses)
-        .post(protect,authrize('publisher','admin'),addCourse);
+        .post(protect,authrize('publisher','admin','user'),addCourse);
   router.route('/:id')
         .get(getCourse)
-        .put(protect,authrize('publisher','admin'),updateCourse)
-        .delete(protect,authrize('publisher','admin'),deleteCourse);
+        .put(protect,authrize('publisher','admin','user'),updateCourse)
+        .delete(protect,authrize('publisher','admin','user'),deleteCourse);
         
 module.exports = router;
