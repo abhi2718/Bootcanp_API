@@ -1,5 +1,6 @@
 const mongoose=require('mongoose'),
       bcrypt=require('bcryptjs'),
+      crypto=require('crypto'),
       jwt=require('jsonwebtoken'),
       UserSchema= new mongoose.Schema({
            name:{
@@ -37,7 +38,7 @@ const mongoose=require('mongoose'),
 UserSchema.pre('save',async function(next){
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password,salt);
-    next();
+    next(); 
 })
 // Sign JWT and return 
 UserSchema.method('getSignedJwtToken',function(){
@@ -48,5 +49,15 @@ UserSchema.method('getSignedJwtToken',function(){
 // Match user entered password with hashed password in database
 UserSchema.method('matchPassword', async function(enteredPassword){
     return await bcrypt.compare(enteredPassword,this.password)
+})
+// Generate and hash resetPassword token
+UserSchema.method('getResetPasswordToken',function(){
+    // Generate resetToken 
+    const resetToken=crypto.randomBytes(20).toString('hex');
+    // Hash resetToken and set it to resetPasswordToken field.
+    this.resetPasswordToken=crypto.createHash('sha256').update(resetToken).digest('hex');
+    // set expire
+    this.resetPasswordExpire = Date.now() + 10 *60 * 1000; // reset token is alive for 10 minutes
+    return resetToken;
 })
 module.exports=mongoose.model("User",UserSchema);
