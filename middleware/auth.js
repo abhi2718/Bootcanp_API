@@ -10,7 +10,7 @@ exports.protect=asyncHandler(async(req,res,next)=>{
     if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
         token=req.headers.authorization.split(' ')[1];
     }else{
-        return next(new ErrorResponse(`Not Authorize to access this route from else`,401));
+        return next(new ErrorResponse(`Not Authorize to access this route `,401));
     }
     // if(req.cookie?.token){
     //     token=req.cookie.token;
@@ -18,7 +18,7 @@ exports.protect=asyncHandler(async(req,res,next)=>{
 
     // Make sure token exsist 
     if(!token){
-        return next(new ErrorResponse(`Not Authorize to access this route from token`,401));
+        return next(new ErrorResponse(`Not Authorize to access this route `,401));
     }
     try {
         //  verify  token
@@ -26,9 +26,10 @@ exports.protect=asyncHandler(async(req,res,next)=>{
         req.user=await User.findById(decoded.id);
         next();
     } catch (error) {
-        return next(new ErrorResponse(`Not Authorize to access this route from catch`,401));
+        return next(new ErrorResponse(`Not Authorize to access this route `,401));
     }
 });
+
 // grant access to spcific roles
 exports.authrize=(...roles)=>(req,res,next)=>{
     if(!roles.includes(req.user.role)){

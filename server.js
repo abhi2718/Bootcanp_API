@@ -3,7 +3,8 @@ const express=require('express'),
       dotenv=require('dotenv'),
       bootcamps=require('./routes/bootcamps'), // importing route file
       courses=require('./routes/courses'),  // importing route file
-      user=require('./routes/auth'),
+      auth=require('./routes/auth'),
+      user=require('./routes/users'),
       morgan=require('morgan'),
       cookieParser = require('cookie-parser'),
       errorHandler=require('./middleware/error'),
@@ -37,7 +38,8 @@ const express=require('express'),
       // mounting bootcamp routes
       app.use('/api/v1/bootcamps',bootcamps);
       app.use('/api/v1/courses',courses);
-      app.use('/api/v1/auth/',user);
+      app.use('/api/v1/auth',auth);
+      app.use('/api/v1/users',user);
       app.use(errorHandler);
 
      const server = app.listen(PORT,

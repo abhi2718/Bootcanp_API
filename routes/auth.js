@@ -1,5 +1,13 @@
 const express=require('express'),
-      {register,login,getMe}=require('../controllers/auth'),
+      {
+            register,
+            login,
+            getMe,
+            forgotpassword,
+            resetPassword,
+            updatedetails,
+            updatepassword
+      }=require('../controllers/auth'),
       {protect}=require('../middleware/auth'),
       router=express.Router();
       
@@ -9,5 +17,13 @@ const express=require('express'),
             .post(login);
       router.route('/me')
             .get(protect,getMe);
+      router.route('/forgotpassword')
+            .post(forgotpassword);
+      router.route('/resetpassword/:resettoken')
+            .put(resetPassword);
+      router.route('/updatedetails')
+            .put(protect,updatedetails);
+      router.route('/updatepassword')
+            .put(protect,updatepassword);
 
       module.exports=router;
