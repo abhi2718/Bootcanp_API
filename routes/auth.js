@@ -6,7 +6,8 @@ const express=require('express'),
             forgotpassword,
             resetPassword,
             updatedetails,
-            updatepassword
+            updatepassword,
+            logout
       }=require('../controllers/auth'),
       {protect}=require('../middleware/auth'),
       router=express.Router();
@@ -15,6 +16,8 @@ const express=require('express'),
             .post(register);
       router.route('/login')
             .post(login);
+      router.route('/logout')
+            .get(logout);
       router.route('/me')
             .get(protect,getMe);
       router.route('/forgotpassword')

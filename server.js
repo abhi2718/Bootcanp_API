@@ -2,10 +2,17 @@
 const express=require('express'),
       dotenv=require('dotenv'),
       bootcamps=require('./routes/bootcamps'), // importing route file
-      courses=require('./routes/courses'),  // importing route file
+      courses=require('./routes/courses'),  
       auth=require('./routes/auth'),
-      user=require('./routes/users'),
+      users=require('./routes/users'),
+      reviews=require('./routes/reviews'),
+      mongoSanitize = require('express-mongo-sanitize'),
+      helmet = require("helmet"),
+      xss = require('xss-clean'),
+      rateLimit = require("express-rate-limit"),
+      hpp = require('hpp'),
       morgan=require('morgan'),
+      cors = require('cors'),
       cookieParser = require('cookie-parser'),
       errorHandler=require('./middleware/error'),
       fileupload=require('express-fileupload'),
@@ -24,14 +31,28 @@ const express=require('express'),
         app.use(morgan('dev'));
       }
 
-
+      const limiter = rateLimit({
+        windowMs: 10 * 60 * 1000, // 10 minutes
+        max: 100 // limit each IP to 100 requests per windowMs
+      });
+      // rate limiting
+      app.use(limiter);
+      // preventing HTTP params pollution
+      app.use(hpp());
       // body parser
       app.use(express.json());
       // cookie parser
       app.use(cookieParser());
       // file uploading
       app.use(fileupload());
-
+      // Sanitize data to prevent NoSQL Injection
+      app.use(mongoSanitize());
+      // set security headers
+      app.use(helmet());
+      // prevent XSS attacks
+      app.use(xss());
+      // Enable CORS
+      app.use(cors());
       // set static folder
       app.use(express.static('public'))
 
@@ -39,7 +60,8 @@ const express=require('express'),
       app.use('/api/v1/bootcamps',bootcamps);
       app.use('/api/v1/courses',courses);
       app.use('/api/v1/auth',auth);
-      app.use('/api/v1/users',user);
+      app.use('/api/v1/users',users);
+      app.use('/api/v1/reviews',reviews);
       app.use(errorHandler);
 
      const server = app.listen(PORT,

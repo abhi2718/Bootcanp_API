@@ -123,7 +123,7 @@ exports.updatedetails=asyncHandler(async (req,res,next)=>{
     if(!user){
        return next(new ErrorResponse(`No user found with given id ${req.user._id} `,400));
     }
-    res.status(200).json({success:true,user});
+    res.status(200).json({success:true,data:user});
    });
 
 // @desc  Update Password
@@ -144,6 +144,18 @@ exports.updatepassword=asyncHandler(async (req,res,next)=>{
     sendTokenResponse(user,200,res);
    });
 
+// @desc  Log user out / clear cookie
+// route  GET /api/v1/auth/logout
+// access Private
+
+exports.logout=asyncHandler(async (req,res,next)=>{
+    res.cookie("token",'',{
+        expires:new Date(Date.now() + 10*60*1000),
+        httpOnly:true
+    })
+    res.status(200).json({success:true,date:{}});
+   });
+   
 
 // Get token from model , create cookie and send response
 const sendTokenResponse = (user,statusCode, res) => {

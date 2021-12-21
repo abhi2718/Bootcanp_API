@@ -13,9 +13,11 @@ const express = require("express"),
   Bootcamp=require('../models/Bootcamp'),
   router = express.Router(),
   //Include other resource routers
-  courseRouter = require('./courses');
+  courseRouter = require('./courses'),
+  reviewRouter = require('./reviews');
   // Re-route into other resource routers
   router.use('/:bootcampId/courses',courseRouter);
+  router.use('/:bootcampId/reviews',reviewRouter);
   router.route('/radius/:zipcode/:distance').get(getBootcampInRadius);
   router.route('/:id/photo').put(protect,authrize('user','publisher','admin'),bootcampPhotoUpload);
 
