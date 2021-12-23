@@ -52,7 +52,11 @@ const express=require('express'),
       // prevent XSS attacks
       app.use(xss());
       // Enable CORS
-      app.use(cors());
+      app.use(cors({
+        origin: '*',  // http://127.0.0.1:5000
+        methods: ['GET','POST','DELETE','PUT'],
+        allowedHeaders :  ['Content-Type', 'Authorization']
+        }));
       // set static folder
       app.use(express.static('public'))
 
