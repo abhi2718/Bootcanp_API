@@ -2,6 +2,7 @@ const advanceResult = (model,populate)=> async (req,res,next) =>{
     let query;
     // copy of req.query
     const reqQuery = {...req.query}
+    console.log(reqQuery);
     // Fields to exclude 
     const removeFields = ['select','sort','limit','page'];
     // Loop over removeFields and delete them from reqQuery
