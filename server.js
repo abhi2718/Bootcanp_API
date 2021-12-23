@@ -11,7 +11,7 @@ const express=require('express'),
       xss = require('xss-clean'),
       rateLimit = require("express-rate-limit"),
       hpp = require('hpp'),
-      morgan=require('morgan'),
+      //morgan=require('morgan'),
       cors = require('cors'),
       cookieParser = require('cookie-parser'),
       errorHandler=require('./middleware/error'),
@@ -28,7 +28,7 @@ const express=require('express'),
 
       // Dev logging middleware
       if(process.env.NODE_ENV === 'development'){
-        app.use(morgan('dev'));
+       // app.use(morgan('dev'));
       }
 
       const limiter = rateLimit({
