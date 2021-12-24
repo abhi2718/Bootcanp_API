@@ -1,4 +1,3 @@
-// https://mongoosejs.com/docs/populate.html -> document for mongoose
 const express=require('express'),
       dotenv=require('dotenv'),
       bootcamps=require('./routes/bootcamps'), // importing route file
@@ -52,7 +51,11 @@ const express=require('express'),
         }));
       // set static folder
       app.use(express.static('public'))
-
+      // Dev logging middleware
+      if(process.env.NODE_ENV === 'development'){
+        const morgan = require('morgan');
+        app.use(morgan('dev'));
+      }
       // mounting bootcamp routes
       app.use('/api/v1/bootcamps',bootcamps);
       app.use('/api/v1/courses',courses);
