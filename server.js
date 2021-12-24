@@ -11,7 +11,6 @@ const express=require('express'),
       xss = require('xss-clean'),
       rateLimit = require("express-rate-limit"),
       hpp = require('hpp'),
-     // morgan=require('morgan'),
       cors = require('cors'),
       cookieParser = require('cookie-parser'),
       errorHandler=require('./middleware/error'),
@@ -24,12 +23,6 @@ const express=require('express'),
       // connecting with db
       connectToDb();
       const PORT=process.env.PORT || 5000;
-
-
-      // Dev logging middleware
-      // if(process.env.NODE_ENV === 'development'){
-      //  app.use(morgan('dev'));
-      // }
 
       const limiter = rateLimit({
         windowMs: 10 * 60 * 1000, // 10 minutes
